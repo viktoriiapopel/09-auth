@@ -1,0 +1,8 @@
+.loadingMessage {
+  background-color: white;
+  padding: 20px 30px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  border-radius: 8px;
+}
