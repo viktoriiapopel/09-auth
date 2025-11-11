@@ -5,6 +5,7 @@ import Header from "../components/Header/Header";
 import TanstackProvider from "../components/TanStackProvider/TanStackProvider";
 import Footer from "@/components/Footer/Footer";
 import { NOTE_IMAGE_URL, SITE_URL } from "@/lib/constants";
+import AuthProvider from "@/components/AuthProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -54,12 +55,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable}`}
       >
-        <TanstackProvider>
-          <Header />
-          {children}
-          {modal}
-          <Footer />
-        </TanstackProvider>
+        <AuthProvider>
+          <TanstackProvider>
+            <Header />
+            {children}
+            {modal}
+            <Footer />
+          </TanstackProvider>
+        </AuthProvider>
       </body>
     </html>
   );

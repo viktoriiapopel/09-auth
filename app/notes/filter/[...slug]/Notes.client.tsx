@@ -10,7 +10,7 @@ import NoteForm from "../../../../components/NoteForm/NoteForm";
 import NoteList from "../../../../components/NoteList/NoteList";
 import Pagination from "../../../../components/Pagination/Pagination";
 import SearchBox from "../../../../components/SearchBox/SearchBox";
-import { fetchNotes } from "@/lib/api";
+import { fetchNotes } from "@/lib/clientApi";
 import type { Note } from "../../../../types/note";
 import Link from "next/link";
 

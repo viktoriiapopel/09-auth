@@ -1,11 +1,14 @@
-import type { Note } from "../types/note";
+import { Note } from "@/types/note";
 import axios from "axios";
 
-const api = axios.create({
-  baseURL: "https://notehub-public.goit.study/api",
-  headers: {
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_NOTEHUB_TOKEN}`,
-  },
+// Видаляємо стару логіку baseURL
+// axios.defaults.baseURL = 'http://localhost:3000/api'
+const baseURL = process.env.NEXT_PUBLIC_API_URL + "/api";
+
+// Створюємо інстанс axios
+export const api = axios.create({
+  baseURL,
+  withCredentials: true,
 });
 
 export interface FetchNotesParams {
@@ -19,55 +22,10 @@ export interface FetchNotesResponse {
   totalPages: number;
 }
 
-export const fetchNotes = async ({
-  tag,
-  search,
-  page = 1,
-  perPage = 12,
-}: {
-  tag?: string;
-  search?: string;
-  page?: number;
-  perPage?: number;
-} = {}) => {
-  const params: Record<string, string | number> = {
-    page,
-    perPage,
-  };
-
-  if (tag && tag !== "all") params.tag = tag;
-  if (search) params.search = search;
-
-  console.log("fetchNotes params:", params);
-  const { data } = await api.get<FetchNotesResponse>("/notes", { params });
-  return data;
-};
-
 export interface NoteListType {
   notes: Note[];
   totalPages: number;
 }
-
-export const deleteNote = async (id: string): Promise<Note> => {
-  const res = await api.delete<Note>(`/notes/${id}`);
-  return res.data;
-};
-
-export const createNote = async (noteData: {
-  title: string;
-  content: string;
-  tag: string;
-}): Promise<Note> => {
-  const res = await api.post<Note>("/notes", noteData);
-  {
-    return res.data;
-  }
-};
-
-export const fetchNoteById = async (id: string): Promise<Note> => {
-  const res = await api.get<Note>(`/notes/${id}`);
-  return res.data;
-};
 
 const categories = [
   { id: "Work", title: "Work" },
@@ -79,3 +37,14 @@ const categories = [
 export const getCategories = async () => {
   return categories;
 };
+
+export interface UserRegister {
+  email: string;
+  password: string;
+}
+
+export interface CheckSession {
+  success: boolean;
+}
+
+
