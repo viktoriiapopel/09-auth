@@ -46,5 +46,3 @@ export interface UserRegister {
 export interface CheckSession {
   success: boolean;
 }
-
-

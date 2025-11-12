@@ -1,7 +1,8 @@
+"use client";
 import Link from "next/link";
 import css from "./AuthNavigation.module.css";
 import { ALL_NOTES_FILTER } from "@/lib/constants";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/lib/store/authStore";
 import { logout } from "@/lib/clientApi";
@@ -84,10 +85,12 @@ export default function AuthNavigation() {
           <li className={css.navigationItem}>
             {user && <p>{user.email}</p>}
             {/* <p className={css.userEmail}>User email</p> */}
-            {/* <button className={css.logoutButton}>Logout</button> */}
-            <Link href="/login" prefetch={false} className={css.logoutButton}>
+            <button onClick={handleLogout} className={css.logoutButton}>
               Logout
-            </Link>
+            </button>
+            {/* <Link href="/login" prefetch={false} className={css.logoutButton}>
+              Logout
+            </Link> */}
           </li>
         </ul>
       </nav>

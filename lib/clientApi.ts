@@ -75,9 +75,33 @@ export const getMe = async () => {
   return data;
 };
 
+// export const checkSession = async () => {
+//   const { data } = await api.get<CheckSession>("/auth/session");
+//   return data.success;
+// };
+
+// import axios from "axios";
+
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "https://notehub-api.goit.study";
+
 export const checkSession = async () => {
-  const { data } = await api.get<CheckSession>("/auth/session");
-  return data.success;
+  try {
+    // Робимо запит до бекенду
+    const response = await axios.get(`${API_URL}/auth/session`, {
+      withCredentials: true,
+    });
+
+    // Повертаємо весь об’єкт відповіді (щоб middleware мав доступ до headers)
+    return response;
+  } catch (error: any) {
+    // Якщо бекенд повернув 401 або 404 — це очікувана поведінка
+    if (error.response) {
+      return error.response;
+    }
+    // У разі інших помилок кидаємо далі
+    throw error;
+  }
 };
 
 export const updateMe = async () => {
