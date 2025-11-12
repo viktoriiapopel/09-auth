@@ -5,7 +5,7 @@ import Header from "../components/Header/Header";
 import TanstackProvider from "../components/TanStackProvider/TanStackProvider";
 import Footer from "@/components/Footer/Footer";
 import { NOTE_IMAGE_URL, SITE_URL } from "@/lib/constants";
-import AuthProvider from "@/components/AuthProvider";
+import AuthProvider from "../components/AuthProvider/AuthProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

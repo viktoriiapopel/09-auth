@@ -1,6 +1,6 @@
 "use client";
 
-import { checkSession, getMe } from "../lib/clientApi";
+import { checkSession, getMe } from "../../lib/clientApi";
 import { useAuthStore } from "@/lib/store/authStore";
 // import { checkSession, getUser } from '@/lib/api/clientApi';
 // import { useAuthStore } from '@/lib/store/authStore';
@@ -27,8 +27,8 @@ const AuthProvider = ({ children }: Props) => {
   }, [setUser]);
 
   // стан isRefreshing ???
-
-  return children;
+  return <>{children}</>;
+  // return children;
 };
 
 export default AuthProvider;

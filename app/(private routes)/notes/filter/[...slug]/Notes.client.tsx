@@ -5,19 +5,17 @@ import { useDebounce } from "use-debounce";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import css from "./NotesPage.module.css";
 
-import Modal from "../../../../components/Modal/Modal";
-import NoteForm from "../../../../components/NoteForm/NoteForm";
-import NoteList from "../../../../components/NoteList/NoteList";
-import Pagination from "../../../../components/Pagination/Pagination";
-import SearchBox from "../../../../components/SearchBox/SearchBox";
+import NoteList from "../../../../../components/NoteList/NoteList";
+import Pagination from "../../../../../components/Pagination/Pagination";
+import SearchBox from "../../../../../components/SearchBox/SearchBox";
 import { fetchNotes } from "@/lib/clientApi";
-import type { Note } from "../../../../types/note";
+import type { Note } from "../../../../../types/note";
 import Link from "next/link";
 
 export default function NotesClient({ tag }: { tag?: string }) {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
 
   const [debouncedSearch] = useDebounce(search, 500);
 
