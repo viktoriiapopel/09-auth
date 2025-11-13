@@ -82,25 +82,38 @@ export const getMe = async () => {
 
 // import axios from "axios";
 
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "https://notehub-api.goit.study";
+// const API_URL =
+//   process.env.NEXT_PUBLIC_API_URL || "https://notehub-api.goit.study";
 
+// export const checkSession = async () => {
+//   try {
+//     // Робимо запит до бекенду
+//     const response = await axios.get(`${API_URL}/auth/session`, {
+//       withCredentials: true,
+//     });
+
+//     // Повертаємо весь об’єкт відповіді (щоб middleware мав доступ до headers)
+//     return response;
+//   } catch (error: any) {
+//     // Якщо бекенд повернув 401 або 404 — це очікувана поведінка
+//     if (error.response) {
+//       return error.response;
+//     }
+//     // У разі інших помилок кидаємо далі
+//     throw error;
+//   }
+// };
 export const checkSession = async () => {
   try {
-    // Робимо запит до бекенду
-    const response = await axios.get(`${API_URL}/auth/session`, {
-      withCredentials: true,
-    });
-
-    // Повертаємо весь об’єкт відповіді (щоб middleware мав доступ до headers)
+    const response = await api.get("/auth/session");
     return response;
   } catch (error: any) {
-    // Якщо бекенд повернув 401 або 404 — це очікувана поведінка
     if (error.response) {
-      return error.response;
+      return error.response; // повертає навіть 401 або 404
     }
-    // У разі інших помилок кидаємо далі
-    throw error;
+
+    // Якщо помилка без відповіді (наприклад, network)
+    return { status: 500, headers: {}, data: null };
   }
 };
 

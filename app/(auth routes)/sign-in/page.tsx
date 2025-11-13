@@ -1,12 +1,12 @@
 "use client";
 
-import { UserRegister } from "../../../lib/api";
-import { login } from "../../../lib/clientApi";
-import { useAuthStore } from "@/lib/store/authStore";
-import { Field, Form, Formik, FormikHelpers } from "formik";
+import { Formik, Form, Field, FormikHelpers } from "formik";
 import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/lib/store/authStore";
+import { login } from "@/lib/clientApi";
 import css from "./SignInPage.module.css";
 import { useState } from "react";
+import { UserRegister } from "@/lib/api";
 
 const initialValues: UserRegister = {
   email: "",
@@ -14,9 +14,6 @@ const initialValues: UserRegister = {
 };
 
 export default function SignIn() {
-  // 1. login
-  // 2. оновлення стану аутентифікації
-  // 3. редірект (profile)
   const router = useRouter();
   const setUser = useAuthStore((state) => state.setUser);
   const [error, setError] = useState<Error | null>(null);
@@ -27,27 +24,24 @@ export default function SignIn() {
   ) => {
     try {
       const user = await login(values);
-      actions.resetForm();
       setUser(user);
+      actions.resetForm();
       router.push("/profile");
     } catch (err) {
-      if (err instanceof Error) {
-        setError(err);
-      } else {
-        setError(new Error("Something went wrong"));
-      }
+      if (err instanceof Error) setError(err);
+      else setError(new Error("Something went wrong"));
     }
   };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit}>
-      <main className={css.mainContent}>
-        <form className={css.form}>
+    <main className={css.mainContent}>
+      <Formik initialValues={initialValues} onSubmit={onSubmit}>
+        <Form className={css.form}>
           <h1 className={css.formTitle}>Sign in</h1>
 
           <div className={css.formGroup}>
             <label htmlFor="email">Email</label>
-            <input
+            <Field
               id="email"
               type="email"
               name="email"
@@ -58,7 +52,7 @@ export default function SignIn() {
 
           <div className={css.formGroup}>
             <label htmlFor="password">Password</label>
-            <input
+            <Field
               id="password"
               type="password"
               name="password"
@@ -72,9 +66,10 @@ export default function SignIn() {
               Log in
             </button>
           </div>
+
           {error && <p className={css.error}>{error.message}</p>}
-        </form>
-      </main>
-    </Formik>
+        </Form>
+      </Formik>
+    </main>
   );
 }

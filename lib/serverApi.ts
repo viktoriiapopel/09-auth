@@ -7,6 +7,7 @@ import {
   CheckSession,
 } from "./api";
 import { User } from "../types/user";
+import { AxiosResponse } from "axios";
 
 export const fetchNotes = async ({
   tag,
@@ -42,7 +43,19 @@ export const getMe = async () => {
   return data;
 };
 
-export const checkSession = async () => {
-  const { data } = await api.get<CheckSession>("/auth/session");
-  return data.success;
+// export const checkSession = async () => {
+//   const { data } = await api.get<CheckSession>("/auth/session");
+//   return data.success;
+// };
+export const checkSession = async (): Promise<AxiosResponse | undefined> => {
+  try {
+    const response = await api.get("/auth/session");
+    return response;
+  } catch (error: any) {
+    if (error.response) {
+      return error.response as AxiosResponse;
+    }
+    console.error("checkSession error:", error);
+    return undefined; // ✅ замість кидання необробленої помилки
+  }
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import { Field, Form, Formik, FormikHelpers } from "formik";
+import { Formik, Form, Field, FormikHelpers } from "formik";
 import { UserRegister } from "../../../lib/api";
 import { register } from "../../../lib/clientApi";
 import { useAuthStore } from "@/lib/store/authStore";
@@ -14,10 +14,6 @@ const initialValues: UserRegister = {
 };
 
 export default function SignUp() {
-  // 1. register
-  // 2. оновлення стану аутентифікації
-  // 3. редірект
-
   const setUser = useAuthStore((state) => state.setUser);
   const router = useRouter();
   const [error, setError] = useState<Error | null>(null);
@@ -29,35 +25,32 @@ export default function SignUp() {
     try {
       const user = await register(values);
 
-      // 🧹 Очищаємо форму тільки після успішного запиту
+      // Очищення форми тільки після успішного запиту
       actions.resetForm();
 
-      // 🔄 Оновлюємо користувача у сторі
+      // Оновлення користувача у сторі
       setUser(user);
 
-      // 🔁 Редірект на сторінку профілю
+      // Редірект на профіль
       router.push("/profile");
     } catch (err) {
-      // ❌ Якщо помилка — просто зберігаємо її у стан
       if (err instanceof Error) {
         setError(err);
       } else {
         setError(new Error("Something went wrong"));
       }
-
-      // 🔹 За бажанням можна очистити тільки поля пароля
-      // actions.setFieldValue("password", "");
     }
   };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit}>
-      <main className={css.mainContent}>
-        <h1 className={css.formTitle}>Sign up</h1>
-        <form className={css.form}>
+    <main className={css.mainContent}>
+      <Formik initialValues={initialValues} onSubmit={onSubmit}>
+        <Form className={css.form}>
+          <h1 className={css.formTitle}>Sign up</h1>
+
           <div className={css.formGroup}>
             <label htmlFor="email">Email</label>
-            <input
+            <Field
               id="email"
               type="email"
               name="email"
@@ -68,7 +61,7 @@ export default function SignUp() {
 
           <div className={css.formGroup}>
             <label htmlFor="password">Password</label>
-            <input
+            <Field
               id="password"
               type="password"
               name="password"
@@ -82,9 +75,10 @@ export default function SignUp() {
               Register
             </button>
           </div>
+
           {error && <p className={css.error}>{error.message}</p>}
-        </form>
-      </main>
-    </Formik>
+        </Form>
+      </Formik>
+    </main>
   );
 }
