@@ -5,7 +5,7 @@ import { ALL_NOTES_FILTER } from "@/lib/constants";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/lib/store/authStore";
-import { logout } from "@/lib/clientApi";
+import { logout } from "@/lib/api/clientApi";
 
 export default function AuthNavigation() {
   const pathname = usePathname();

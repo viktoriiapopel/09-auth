@@ -3,10 +3,10 @@
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/store/authStore";
-import { login } from "@/lib/clientApi";
+import { login } from "@/lib/api/clientApi";
 import css from "./SignInPage.module.css";
 import { useState } from "react";
-import { UserRegister } from "@/lib/api";
+import { UserRegister } from "@/lib/api/api";
 
 const initialValues: UserRegister = {
   email: "",

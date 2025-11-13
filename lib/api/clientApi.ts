@@ -1,4 +1,4 @@
-import type { Note } from "../types/note";
+import type { Note } from "../../types/note";
 import axios from "axios";
 import {
   FetchNotesParams,
@@ -7,9 +7,9 @@ import {
   UserRegister,
   CheckSession,
 } from "./api";
-import { api } from "../app/api/api";
+import { api } from "../../app/api/api";
 
-import { User } from "../types/user";
+import { User } from "../../types/user";
 
 export const fetchNotes = async ({
   tag,

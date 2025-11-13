@@ -2,7 +2,7 @@
 // middleware.ts
 import { NextRequest, NextResponse } from "next/server";
 import { parse } from "cookie";
-import { checkSession } from "./lib/serverApi";
+import { checkSession } from "./lib/api/serverApi";
 
 const privateRoutes = ["/profile", "/notes"];
 const authRoutes = ["/sign-in", "/sign-up"];

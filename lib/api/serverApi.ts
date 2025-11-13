@@ -1,12 +1,12 @@
-import type { Note } from "../types/note";
+import type { Note } from "../../types/note";
 import {
   FetchNotesParams,
   FetchNotesResponse,
   NoteListType,
   CheckSession,
 } from "./api";
-import { api } from "../app/api/api";
-import { User } from "../types/user";
+import { api } from "../../app/api/api";
+import { User } from "../../types/user";
 import { AxiosResponse } from "axios";
 
 export const fetchNotes = async ({

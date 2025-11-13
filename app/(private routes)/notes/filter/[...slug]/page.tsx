@@ -1,4 +1,4 @@
-import { fetchNotes } from "@/lib/serverApi";
+import { fetchNotes } from "@/lib/api/serverApi";
 import { ALL_NOTES_FILTER, NOTE_IMAGE_URL, SITE_URL } from "@/lib/constants";
 import NotesClient from "./Notes.client";
 import {

@@ -1,8 +1,8 @@
 "use client";
 
 import { Formik, Form, Field, FormikHelpers } from "formik";
-import { UserRegister } from "../../../lib/api";
-import { register } from "../../../lib/clientApi";
+import { UserRegister } from "../../../lib/api/api";
+import { register } from "../../../lib/api/clientApi";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useRouter } from "next/navigation";
 import css from "./SignUpPage.module.css";
