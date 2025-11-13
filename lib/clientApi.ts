@@ -1,13 +1,14 @@
 import type { Note } from "../types/note";
 import axios from "axios";
 import {
-  api,
   FetchNotesParams,
   FetchNotesResponse,
   NoteListType,
   UserRegister,
   CheckSession,
 } from "./api";
+import { api } from "../app/api/api";
+
 import { User } from "../types/user";
 
 export const fetchNotes = async ({
