@@ -8,4 +8,4 @@ export const ALL_NOTES_CATEGORIES = [
 ];
 export const NOTE_IMAGE_URL =
   "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg";
-export const SITE_URL = "https://08-zustand-tawny-three.vercel.app";
+export const SITE_URL = "https://09-auth-opal-pi.vercel.app/";

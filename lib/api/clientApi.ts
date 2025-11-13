@@ -107,8 +107,14 @@ export const getMe = async () => {
 export const checkSession = async () => {
   try {
     const response = await api.get("/auth/session");
+    console.log("✅ checkSession response:", response.status, response.data);
     return response;
   } catch (error: any) {
+    console.log(
+      "❌ checkSession error:",
+      error.response?.status,
+      error.response?.data
+    );
     if (error.response) {
       return error.response; // повертає навіть 401 або 404
     }
