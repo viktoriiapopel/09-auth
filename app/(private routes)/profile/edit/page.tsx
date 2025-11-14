@@ -1,66 +1,36 @@
-// import Link from "next/link";
-// import css from "./EditProfilePage.module.css";
-
-// const EditProfile = () => {
-//   return (
-//     <main className={css.mainContent}>
-//       <div className={css.profileCard}>
-//         <h1 className={css.formTitle}>Edit Profile</h1>
-
-//         <img
-//           src="avatar"
-//           alt="User Avatar"
-//           width={120}
-//           height={120}
-//           className={css.avatar}
-//         />
-
-//         <form className={css.profileInfo}>
-//           <div className={css.usernameWrapper}>
-//             <label htmlFor="username">Username:</label>
-//             <input id="username" type="text" className={css.input} />
-//           </div>
-
-//           {user && <p>{user.email}</p>}
-
-//           <div className={css.actions}>
-//             <button type="submit" className={css.saveButton}>
-//               Save
-//             </button>
-//             {/* <button type="button" className={css.cancelButton}>
-//               Cancel
-//             </button> */}
-//             <Link href="/profile" className={css.cancelButton}>
-//               Cancel
-//             </Link>
-//           </div>
-//         </form>
-//       </div>
-//     </main>
-//   );
-// };
-
-// export default EditProfile;
-
 "use client";
 
-import Link from "next/link";
-import { useAuthStore } from "@/lib/store/authStore";
-import css from "./EditProfilePage.module.css";
+import Image from "next/image";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import css from "./EditProfilePage.module.css";
+import { useAuthStore } from "@/lib/store/authStore";
+import { updateMe } from "@/lib/api/clientApi";
 
-const EditProfile = () => {
+export default function EditProfile() {
+  const router = useRouter();
+
   const user = useAuthStore((state) => state.user);
+  const setUser = useAuthStore((state) => state.setUser);
+
   const [username, setUsername] = useState(user?.username || "");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
+
     try {
-      // тут буде запит на оновлення профілю, наприклад:
-      // await api.patch("/users", { username });
-      alert("Profile updated successfully!");
-    } catch (error) {
-      console.error("Update failed:", error);
+      const updatedUser = await updateMe({ username });
+      setUser(updatedUser);
+
+      router.push("/profile");
+    } catch (err: any) {
+      setError(err.message || "Failed to update profile");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -69,7 +39,7 @@ const EditProfile = () => {
       <div className={css.profileCard}>
         <h1 className={css.formTitle}>Edit Profile</h1>
 
-        <img
+        <Image
           src={user?.avatar || "/default-avatar.png"}
           alt="User Avatar"
           width={120}
@@ -89,20 +59,25 @@ const EditProfile = () => {
             />
           </div>
 
-          {user && <p className={css.email}>{user.email}</p>}
+          <p className={css.email}>{user?.email}</p>
+
+          {error && <p className={css.error}>{error}</p>}
 
           <div className={css.actions}>
-            <button type="submit" className={css.saveButton}>
-              Save
+            <button type="submit" className={css.saveButton} disabled={loading}>
+              {loading ? "Saving..." : "Save"}
             </button>
-            <Link href="/profile" className={css.cancelButton}>
+
+            <button
+              type="button"
+              className={css.cancelButton}
+              onClick={() => router.back()}
+            >
               Cancel
-            </Link>
+            </button>
           </div>
         </form>
       </div>
     </main>
   );
-};
-
-export default EditProfile;
+}

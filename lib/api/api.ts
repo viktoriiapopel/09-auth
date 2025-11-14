@@ -1,6 +1,15 @@
 import { Note } from "@/types/note";
 import axios from "axios";
 
+// export const api = axios.create({
+//   baseURL: process.env.NEXT_PUBLIC_API_URL,
+//   withCredentials: true,
+// });
+export const api = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  withCredentials: true, // важливо!
+});
+
 export interface FetchNotesParams {
   page?: number;
   perPage?: number;
@@ -35,4 +44,9 @@ export interface UserRegister {
 
 export interface CheckSession {
   success: boolean;
+}
+
+export interface UpdateUserData {
+  username?: string;
+  avatar?: string;
 }

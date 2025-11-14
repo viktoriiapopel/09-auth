@@ -8,6 +8,12 @@ import {
 import { api } from "../../app/api/api";
 import { User } from "../../types/user";
 import { AxiosResponse } from "axios";
+import { cookies } from "next/headers";
+
+export async function getAuthCookies() {
+  const cookieStore = await cookies();
+  return cookieStore.toString();
+}
 
 export const fetchNotes = async ({
   tag,
@@ -27,19 +33,29 @@ export const fetchNotes = async ({
 
   if (tag && tag !== "all") params.tag = tag;
   if (search) params.search = search;
+  const Cookie = await getAuthCookies();
 
   console.log("fetchNotes params:", params);
-  const { data } = await api.get<FetchNotesResponse>("/notes", { params });
+  const { data } = await api.get<FetchNotesResponse>("/notes", {
+    params,
+    headers: { Cookie },
+  });
   return data;
 };
 
 export const fetchNoteById = async (id: string): Promise<Note> => {
-  const res = await api.get<Note>(`/notes/${id}`);
+  const Cookie = await getAuthCookies();
+  const res = await api.get<Note>(`/notes/${id}`, {
+    headers: { Cookie },
+  });
   return res.data;
 };
 
 export const getMe = async () => {
-  const { data } = await api.get<User>("users/me");
+  const Cookie = await getAuthCookies();
+  const { data } = await api.get<User>("users/me", {
+    headers: { Cookie },
+  });
   return data;
 };
 
@@ -48,8 +64,11 @@ export const getMe = async () => {
 //   return data.success;
 // };
 export const checkSession = async (): Promise<AxiosResponse | undefined> => {
+  const Cookie = await getAuthCookies();
   try {
-    const response = await api.get("/auth/session");
+    const response = await api.get("/auth/session", {
+      headers: { Cookie },
+    });
     console.log("✅ checkSession response:", response.status, response.data);
     return response;
   } catch (error: any) {

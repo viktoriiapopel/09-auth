@@ -10,9 +10,7 @@ const nextConfig = {
   reactStrictMode: true,
 
   // 🔹 Тимчасово ігноруємо ESLint під час build (Vercel)
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+
   images: {
     remotePatterns: [
       {

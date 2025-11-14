@@ -6,6 +6,7 @@ import {
   NoteListType,
   UserRegister,
   CheckSession,
+  UpdateUserData,
 } from "./api";
 import { api } from "../../app/api/api";
 
@@ -72,7 +73,7 @@ export const logout = async () => {
 };
 
 export const getMe = async () => {
-  const { data } = await api.get<User>("users/me");
+  const { data } = await api.get<User>("/users/me");
   return data;
 };
 
@@ -124,7 +125,12 @@ export const checkSession = async () => {
   }
 };
 
-export const updateMe = async () => {
-  const { data } = await api.patch<User>("users/me");
+// export const updateMe = async () => {
+//   const { data } = await api.patch<User>("/users/me");
+//   return data;
+// };
+
+export const updateMe = async (updateData: UpdateUserData) => {
+  const { data } = await api.patch<User>("/users/me", updateData);
   return data;
 };

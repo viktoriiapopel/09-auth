@@ -55,14 +55,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable}`}
       >
-        <AuthProvider>
-          <TanstackProvider>
+        <TanstackProvider>
+          <AuthProvider>
             <Header />
             {children}
             {modal}
             <Footer />
-          </TanstackProvider>
-        </AuthProvider>
+          </AuthProvider>
+        </TanstackProvider>
       </body>
     </html>
   );
