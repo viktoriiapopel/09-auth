@@ -1,14 +1,8 @@
 import type { Note } from "../../types/note";
-import {
-  FetchNotesParams,
-  FetchNotesResponse,
-  NoteListType,
-  CheckSession,
-} from "./api";
-import { api } from "../../app/api/api";
-import { User } from "../../types/user";
-import { AxiosResponse } from "axios";
+import { FetchNotesResponse, CheckSession } from "./api";
+import { User } from "@/types/user";
 import { cookies } from "next/headers";
+import { api } from "@/app/api/api";
 
 export async function getAuthCookies() {
   const cookieStore = await cookies();
@@ -53,34 +47,16 @@ export const fetchNoteById = async (id: string): Promise<Note> => {
 
 export const getMe = async () => {
   const Cookie = await getAuthCookies();
-  const { data } = await api.get<User>("users/me", {
+  const { data } = await api.get<User>(`/users/me`, {
     headers: { Cookie },
   });
   return data;
 };
 
-// export const checkSession = async () => {
-//   const { data } = await api.get<CheckSession>("/auth/session");
-//   return data.success;
-// };
-export const checkSession = async (): Promise<AxiosResponse | undefined> => {
+export const checkSession = async () => {
   const Cookie = await getAuthCookies();
-  try {
-    const response = await api.get("/auth/session", {
-      headers: { Cookie },
-    });
-    console.log("✅ checkSession response:", response.status, response.data);
-    return response;
-  } catch (error: any) {
-    console.log(
-      "❌ checkSession error:",
-      error.response?.status,
-      error.response?.data
-    );
-    if (error.response) {
-      return error.response as AxiosResponse;
-    }
-    console.error("checkSession error:", error);
-    return undefined; // ✅ замість кидання необробленої помилки
-  }
+  const res = await api.get<CheckSession>("/auth/session", {
+    headers: { Cookie },
+  });
+  return res;
 };

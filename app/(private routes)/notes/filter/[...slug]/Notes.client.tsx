@@ -5,23 +5,22 @@ import { useDebounce } from "use-debounce";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import css from "./NotesPage.module.css";
 
-import NoteList from "../../../../../components/NoteList/NoteList";
-import Pagination from "../../../../../components/Pagination/Pagination";
-import SearchBox from "../../../../../components/SearchBox/SearchBox";
+import NoteList from "@/components/NoteList/NoteList";
+import Pagination from "@/components/Pagination/Pagination";
+import SearchBox from "@/components/SearchBox/SearchBox";
 import { fetchNotes } from "@/lib/api/clientApi";
-import type { Note } from "../../../../../types/note";
+import type { Note } from "@/types/note";
 import Link from "next/link";
 
 export default function NotesClient({ tag }: { tag?: string }) {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  // const [showModal, setShowModal] = useState(false);
 
   const [debouncedSearch] = useDebounce(search, 500);
 
   const handleSearchChange = (value: string) => {
     setSearch(value);
-    setPage(1); // Скидаємо сторінку
+    setPage(1);
   };
 
   const { data, isLoading, isError, error } = useQuery({
@@ -68,16 +67,8 @@ export default function NotesClient({ tag }: { tag?: string }) {
         <Link className={css.button} href="/notes/action/create">
           Create note +
         </Link>
-        {/* <button className={css.button} onClick={() => setShowModal(true)}>
-          Create note +
-        </button> */}
       </header>
       {notes.length > 0 && <NoteList notes={notes} />}
-      {/* {showModal && (
-        <Modal onClose={() => setShowModal(false)}>
-          <NoteForm onClose={() => setShowModal(false)} />
-        </Modal>
-      )} */}
     </div>
   );
 }

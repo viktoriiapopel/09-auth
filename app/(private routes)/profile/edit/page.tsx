@@ -1,36 +1,58 @@
 "use client";
 
-import Image from "next/image";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { getMe, updateMe } from "@/lib/api/clientApi";
 import css from "./EditProfilePage.module.css";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
+import { isAxiosError } from "axios";
+import { User } from "@/types/user";
 import { useAuthStore } from "@/lib/store/authStore";
-import { updateMe } from "@/lib/api/clientApi";
 
 export default function EditProfile() {
+  const [userEdit, setUserEdit] = useState<User | null>(null);
   const router = useRouter();
-
-  const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
 
-  const [username, setUsername] = useState(user?.username || "");
-  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const data = await getMe();
+        if (data) setUserEdit(data);
+      } catch (error) {
+        console.error("Failed to fetch user:", error);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  const handleCancel = () => {
+    router.push("/profile");
+  };
+
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-
+  const handleSubmit = async (formData: FormData) => {
     try {
-      const updatedUser = await updateMe({ username });
-      setUser(updatedUser);
+      const username = formData.get("username") as string;
 
+      if (!userEdit?.email) return;
+
+      const updatedUser = await updateMe({
+        email: userEdit?.email,
+        username: username,
+      });
+
+      setUser(updatedUser);
       router.push("/profile");
-    } catch (err: any) {
-      setError(err.message || "Failed to update profile");
-    } finally {
-      setLoading(false);
+    } catch (error) {
+      if (isAxiosError(error) && error.response) {
+        setError(error.response.data.message);
+      } else {
+        setError("An unexpected error occurred");
+      }
     }
   };
 
@@ -39,39 +61,41 @@ export default function EditProfile() {
       <div className={css.profileCard}>
         <h1 className={css.formTitle}>Edit Profile</h1>
 
-        <Image
-          src={user?.avatar || "/default-avatar.png"}
-          alt="User Avatar"
-          width={120}
-          height={120}
-          className={css.avatar}
-        />
+        {userEdit?.avatar && (
+          <Image
+            src={userEdit.avatar}
+            alt="User Avatar"
+            width={120}
+            height={120}
+            className={css.avatar}
+          />
+        )}
 
-        <form className={css.profileInfo} onSubmit={handleSubmit}>
+        <form className={css.profileInfo} action={handleSubmit}>
           <div className={css.usernameWrapper}>
             <label htmlFor="username">Username:</label>
             <input
+              name="username"
               id="username"
               type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
               className={css.input}
+              defaultValue={userEdit?.username}
             />
           </div>
 
-          <p className={css.email}>{user?.email}</p>
+          <p className={css.email}>Email: {userEdit?.email}</p>
 
           {error && <p className={css.error}>{error}</p>}
 
           <div className={css.actions}>
-            <button type="submit" className={css.saveButton} disabled={loading}>
-              {loading ? "Saving..." : "Save"}
+            <button type="submit" className={css.saveButton}>
+              Save
             </button>
 
             <button
               type="button"
+              onClick={handleCancel}
               className={css.cancelButton}
-              onClick={() => router.back()}
             >
               Cancel
             </button>

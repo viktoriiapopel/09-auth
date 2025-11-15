@@ -1,12 +1,12 @@
 "use client";
 
 import css from "./NoteForm.module.css";
-import { createNote } from "../../lib/api/clientApi";
+import { createNote } from "@/lib/api/clientApi";
 import toast from "react-hot-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Note } from "../../types/note";
+import { Note } from "@/types/note";
 import { FormEvent } from "react";
-import { useNoteDraftStore } from "../../lib/store/noteStore";
+import { useNoteDraftStore } from "@/lib/store/noteStore";
 import { useRouter } from "next/navigation";
 
 interface NoteFormProps {

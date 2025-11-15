@@ -1,13 +1,9 @@
 import { Note } from "@/types/note";
 import axios from "axios";
 
-// export const api = axios.create({
-//   baseURL: process.env.NEXT_PUBLIC_API_URL,
-//   withCredentials: true,
-// });
-export const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
-  withCredentials: true, // важливо!
+export const nextServer = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL + "/api",
+  withCredentials: true,
 });
 
 export interface FetchNotesParams {
@@ -47,6 +43,7 @@ export interface CheckSession {
 }
 
 export interface UpdateUserData {
+  email?: string;
   username?: string;
   avatar?: string;
 }

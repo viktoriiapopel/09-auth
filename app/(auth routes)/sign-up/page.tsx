@@ -25,13 +25,10 @@ export default function SignUp() {
     try {
       const user = await register(values);
 
-      // Очищення форми тільки після успішного запиту
       actions.resetForm();
 
-      // Оновлення користувача у сторі
       setUser(user);
 
-      // Редірект на профіль
       router.push("/profile");
     } catch (err) {
       if (err instanceof Error) {
