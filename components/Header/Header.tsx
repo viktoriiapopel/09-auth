@@ -15,25 +15,20 @@ const Header = () => {
   }
 
   return (
-    // <header className={css.header}>
-    //   <Link href="/" aria-label="Home">
-    //     NoteHub
-    //   </Link>
-    //   <nav aria-label="Main Navigation">
-    //     <ul className={css.navigation}>
-    //       <li>
-    //         <Link href="/">Home</Link>
-    //       </li>
-    //       {isAuthenticated && (
-    //         <li>
-    //           <Link href={`/notes/filter/${ALL_NOTES_FILTER}`}>Notes</Link>
-    //         </li>
-    //       )}
-    //       <AuthNavigation />
-    //     </ul>
-    //   </nav>
-    // </header>
-    <AuthNavigation />
+    <header className={css.header}>
+      <Link href="/" aria-label="Home">
+        NoteHub
+      </Link>
+      <nav aria-label="Main Navigation">
+        <ul className={css.navigation}>
+          <li>
+            <Link href="/">Home</Link>
+          </li>
+          <AuthNavigation />
+        </ul>
+      </nav>
+    </header>
+    // <AuthNavigation />
   );
 };
 

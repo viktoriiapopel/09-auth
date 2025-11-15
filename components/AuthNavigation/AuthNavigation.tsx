@@ -19,71 +19,40 @@ export default function AuthNavigation() {
     clearIsAuthenticated();
     router.push("/sign-in");
   };
-  if (!isAuthenticated)
+  if (isAuthenticated && user) {
     return (
-      <header className={css.header}>
-        <Link href="/" aria-label="Home">
-          NoteHub
-        </Link>
-        <nav aria-label="Main Navigation">
-          <ul className={css.navigation}>
-            <li>
-              <Link href="/">Home</Link>
-            </li>
-            <li className={css.navigationItem}>
-              <Link
-                href="/sign-in"
-                prefetch={false}
-                className={css.navigationLink}
-              >
-                Login
-              </Link>
-            </li>
-
-            <li className={css.navigationItem}>
-              <Link
-                href="/sign-up"
-                prefetch={false}
-                className={css.navigationLink}
-              >
-                Sign up
-              </Link>
-            </li>
-          </ul>
-        </nav>
-      </header>
+      <>
+        <li className={css.navigationItem}>
+          <Link href="/notes/filter/all">Notes</Link>
+        </li>
+        <li className={css.navigationItem}>
+          <Link href="/profile" prefetch={false} className={css.navigationLink}>
+            Profile
+          </Link>
+        </li>
+        <li className={css.navigationItem}>
+          <p className={css.userEmail}>{user?.email}</p>
+          <button onClick={handleLogout} className={css.logoutButton}>
+            Logout
+          </button>
+        </li>
+      </>
     );
-  return (
-    <header className={css.header}>
-      <Link href="/" aria-label="Home">
-        NoteHub
-      </Link>
-      <nav aria-label="Main Navigation">
-        <ul className={css.navigation}>
-          <li>
-            <Link href="/">Home</Link>
-          </li>
-          <li>
-            <Link href="/notes/filter/all">Notes</Link>
-          </li>
-          <li className={css.navigationItem}>
-            <Link
-              href="/profile"
-              prefetch={false}
-              className={css.navigationLink}
-            >
-              Profile
-            </Link>
-          </li>
+  }
 
-          <li className={css.navigationItem}>
-            {user && <p>{user.email}</p>}
-            <button onClick={handleLogout} className={css.logoutButton}>
-              Logout
-            </button>
-          </li>
-        </ul>
-      </nav>
-    </header>
+  return (
+    <>
+      <li className={css.navigationItem}>
+        <Link href="/sign-in" prefetch={false} className={css.navigationLink}>
+          Login
+        </Link>
+      </li>
+
+      <li className={css.navigationItem}>
+        <Link href="/sign-up" prefetch={false} className={css.navigationLink}>
+          Sign up
+        </Link>
+      </li>
+    </>
   );
 }
