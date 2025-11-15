@@ -130,7 +130,15 @@ export const checkSession = async () => {
 //   return data;
 // };
 
-export const updateMe = async (updateData: UpdateUserData) => {
-  const { data } = await api.patch<User>("/users/me", updateData);
+// export const updateMe = async (updateData: UpdateUserData) => {
+//   const { data } = await api.patch<User>("/users/me", updateData);
+//   return data;
+// };
+
+export const updateMe = async (payload: {
+  username?: string;
+  avatar?: string;
+}) => {
+  const { data } = await api.patch<User>("/users/me", payload);
   return data;
 };

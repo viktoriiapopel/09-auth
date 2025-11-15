@@ -24,6 +24,7 @@ export default function SignIn() {
   ) => {
     try {
       const user = await login(values);
+      console.log(user);
       setUser(user);
       actions.resetForm();
       router.push("/profile");
