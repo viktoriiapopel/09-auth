@@ -1,4 +1,4 @@
-import type { Note } from "../../types/note";
+import type { Note } from "@/types/note";
 import { FetchNotesResponse, CheckSession } from "./api";
 import { User } from "@/types/user";
 import { cookies } from "next/headers";
@@ -29,7 +29,6 @@ export const fetchNotes = async ({
   if (search) params.search = search;
   const Cookie = await getAuthCookies();
 
-  console.log("fetchNotes params:", params);
   const { data } = await api.get<FetchNotesResponse>("/notes", {
     params,
     headers: { Cookie },

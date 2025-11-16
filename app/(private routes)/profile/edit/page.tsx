@@ -41,7 +41,7 @@ export default function EditProfile() {
       if (!userEdit?.email) return;
 
       const updatedUser = await updateMe({
-        email: userEdit?.email,
+        // email: userEdit?.email,
         username: username,
       });
 

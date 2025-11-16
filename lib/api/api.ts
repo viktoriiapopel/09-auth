@@ -42,8 +42,12 @@ export interface CheckSession {
   success: boolean;
 }
 
+// export interface UpdateUserData {
+//   email?: string;
+//   username?: string;
+//   avatar?: string;
+// }
+
 export interface UpdateUserData {
-  email?: string;
-  username?: string;
-  avatar?: string;
+  username: string;
 }
